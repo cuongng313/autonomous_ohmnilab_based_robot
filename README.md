@@ -1,4 +1,7 @@
 # CycloBot
+A complete workspace of the autonomous robot:
+ + Autonomous navigate to pre-defined points
+ + Can navigate auto or manual to people 
 ## Connect to the robot:
 1. Turn on the robot
 2. Check the ip address of the robot:
