@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Show in Rviz  -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find gmapping)/rviz/map.rviz"/>
+
+</launch>

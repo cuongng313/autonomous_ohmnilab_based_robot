@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <title>Bootstrap Example</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=0.7">
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <script src="./js/jquery.min.js"></script>
+      <script src="./js/bootstrap.min.js"></script>
+      <!-- <script src="./js/vue.js"></script> -->
+      <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+      <!-- jQuery and display.js are conveniences for interacting with the DOM -->
+      <script src="js/jquery.js"></script>
+      <script src="js/display.js"></script>
+
+      <script src="js/three.js"></script>
+      <script src="js/ColladaLoader2.js"></script>
+      <script src="js/eventemitter2.js"></script>
+      <!-- <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script> -->
+      <script type="text/javascript" src="js/roslib.min.js"></script>
+      <!-- <script src="http://static.robotwebtools.org/ros3djs/current/ros3d.js"></script> -->
+      <script src="js/ros3d.min.js"></script>
+      <script src="js/vue2-touch-events.js"></script>
+      <script src="common.js"></script>
+      <style>
+            .btn {
+                  width: 140px;
+                  height: 40px;
+            }
+      </style>
+
+      <!-- <meta http-equiv="refresh" content="60"> -->
+</head>
+
+<body>
+
+      <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                  <ul class="nav navbar-nav">
+                        <li class="active" style="display: inline-flex;"><a href="index.html">Home</a></li>
+                        <li style="display: inline-flex;"><a href="pageMap.html">ViewMap</a></li>
+                        <li style="display: inline-flex;"><a href="pageSetttings.html">Settings</a></li>
+                  </ul>
+            </div>
+      </nav>
+      <div class="container-fluid" id="app">
+
+            <div class="row">
+                  <div class="col-sm-6">
+                        <h3>Connection status</h3>
+                        <p class="text-success" v-if="connected">Connected</p>
+                        <p class="text-danger" v-else>Disconnected</p>
+                        <label>Server Address:</label>
+                        <input type="text" v-model="ws_address" style="width: 180px;" />
+
+                        <button @click="disconnect" class="btn btn-danger" style="height: 30px;"
+                              v-if="connected">Disconnect</button>
+                        <button @click="connect" class="btn btn-success" style="height: 30px;" v-else>Connect</button>
+
+                  </div>
+            </div>
+            <div class="row">
+                  <div class="col-sm-6">
+                        <br>
+                        <button @click="sendModeMsg(7)" class="btn btn-success" style="height: 30px;"
+                              v-if="connected">Initialise Pose</button>
+
+                  </div>
+            </div>
+            <h2>Mode Selection</h2>
+            <div class="row">
+                  <div class="col-sm-6">
+
+                        <button class="btn btn-success btn-lg" onclick="callPhp('ohmni_enable')" v-if="connected">Ohmni
+                              Mode</button>
+                        <button class="btn btn-warning btn-lg" v-else>Ohmni Mode</button>
+                        <button class="btn btn-primary btn-lg" onclick="callPhp('ohmni_disable')" v-if="connected">ROS
+                              Mode</button>
+                        <button class="btn btn-warning btn-lg" v-else>ROS Mode</button>
+
+                  </div>
+
+            </div>
+
+            <h2>ROS Mode Options</h2>
+            <h3>Auto:</h3>
+            <div class="row">
+                  <div class="col-sm-6">
+                        <button class="btn btn-danger btn-lg" @click="sendModeMsg(1)" v-if="connected">Auto</button>
+                        <button class="btn btn-warning btn-lg" v-else>Auto</button>
+                        <br />
+                        <br />
+                  </div>
+
+            </div>
+            <h3>Manual:</h3>
+            <div class="row">
+                  <div class="col-sm-6">
+                        <button class="btn btn-danger btn-lg" @click="sendModeMsg(0)" v-if="connected">Home</button>
+                        <button class="btn btn-warning btn-lg" v-else>Home</button>
+                        <button class="btn btn-success btn-lg" @click="sendModeMsg(3)" v-if="connected">ZoneA</button>
+                        <button class="btn btn-warning btn-lg" v-else>ZoneA</button>
+                        <br /><br />
+                        <button class="btn btn-primary btn-lg" @click="sendModeMsg(4)" v-if="connected">ZoneB</button>
+                        <button class="btn btn-warning btn-lg" v-else>ZoneB</button>
+                        <button class="btn btn-info btn-lg" @click="sendModeMsg(5)" v-if="connected">ZoneC</button>
+                        <button class="btn btn-warning btn-lg" v-else>ZoneC</button>
+                        <br /><br />
+                        <button class="btn btn-success btn-lg" @click="sendModeMsg(6)"
+                              v-if="connected">Showroom</button>
+                        <button class="btn btn-warning btn-lg" v-else>Showroom</button>
+                        <button class="btn btn-danger btn-lg" @click="sendModeMsg(16)"
+                              v-if="connected">Emergency</button>
+                        <button class="btn btn-warning btn-lg" v-else>Emergency</button>
+                        <br /><br />
+                        <button class="btn btn-success btn-lg" onclick="callPhp('play_sound')">Voice</button>
+                  </div>
+
+            </div>
+            <br /><br />
+            <br /><br />
+            <br /><br />
+            <br /><br />
+            <br /><br />
+            <br /><br />
+            <h3>Zone Settings:</h3>
+
+            <div class="row">
+                  <div class="col-sm-6">
+                        <button class="btn btn-danger btn-lg" @click="sendZoneMsg(0)" v-if="connected">Home</button>
+                        <button class="btn btn-warning btn-lg" v-else>Home</button>
+                        <button class="btn btn-success btn-lg" @click="sendZoneMsg(2)" v-if="connected">ZoneA</button>
+                        <button class="btn btn-warning btn-lg" v-else>ZoneA</button>
+                        <br /><br />
+                        <button class="btn btn-primary btn-lg" @click="sendZoneMsg(3)" v-if="connected">ZoneB</button>
+                        <button class="btn btn-warning btn-lg" v-else>ZoneB</button>
+                        <button class="btn btn-info btn-lg" @click="sendZoneMsg(4)" v-if="connected">ZoneC</button>
+                        <button class="btn btn-warning btn-lg" v-else>ZoneC</button>
+                        <br /><br />
+                        <button class="btn btn-success btn-lg" @click="sendZoneMsg(1)"
+                              v-if="connected">Showroom</button>
+                        <button class="btn btn-warning btn-lg" v-else>Showroom</button>
+                        
+                  </div>
+
+            </div>
+
+
+
+
+            <div class="row">
+                  <div class="col-md-6" style="max-height: fit-content;">
+                        <h3>Logs:</h3>
+                        <p v-for=" log in logs">
+                              {{ log }}
+                        </p>
+
+                  </div>
+            </div>
+
+            <br>
+      </div>
+      <br>
+      <script type="text/javascript" src="./app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+<launch>
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+    <rosparam command="load" file="$(find xiglo_launch)/config/ekf_odom_parameter.yaml" />
+    <!-- <param name="map_frame" value="map"/>  -->
+
+    <!-- <param name="odom_frame" value="odom"/>
+
+    <param name="base_link_frame" value="footprint"/>
+
+    <param name="world_frame" value="odom"/>  -->
+
+    <!--  Placeholder for output topic remapping -->
+    <remap from="odometry/filtered" to="odom_combined"/>
+    <!-- <remap from="accel/filtered" to=""/> -->
+    
+
+  </node>
+</launch>

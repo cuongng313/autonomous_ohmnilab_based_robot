@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="behavior_planner" type="behavior_planner" name="behavior_planner" output = "screen" >
+ 
+  </node>
+</launch>

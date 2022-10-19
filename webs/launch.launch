@@ -1,0 +1,15 @@
+<launch>
+    
+    <!-- <node name="proxy" pkg="interactive_marker_proxy" type="proxy"  output="screen"> 
+        <remap from="topic_ns" to="basic_shapes"/>
+        <remap from="target_frame" to="map"/>
+    </node> -->
+    <!-- <node name="basic_controls" pkg="interactive_marker_tutorials" type="basic_controls" output="screen"> </node> -->
+
+    <!-- <node name="basic_shapes" pkg="interactive_marker_tutorials" type="basic_shapes" output="screen"> </node> -->
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" >
+    </include>
+    <node name="tf2_web_republisher" pkg="tf2_web_republisher" type="tf2_web_republisher">
+    </node>
+
+</launch>

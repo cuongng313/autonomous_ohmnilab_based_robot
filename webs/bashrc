@@ -1,0 +1,13 @@
+export ROS_IP=$(ip addr show wlo1 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
+export ROS_MASTER_URI=http://192.168.100.9:11311
+alias start_docker="bash /var/www/webs/utils.sh start_docker"
+alias kill_docker="bash /var/www/webs/utils.sh kill_docker"
+alias connect="bash /var/www/webs/utils.sh connect"
+alias disconnect="bash /var/www/webs/utils.sh disconnect"
+alias run_nx="bash /var/www/webs/utils.sh run_nx"
+alias stop_nx="bash /var/www/webs/utils.sh stop_nx"
+alias web="bash /var/www/webs/run.sh"
+
+alias buildmap="bash $HOME/Desktop/RobotCESdemo/Run_script/MapBuild.sh"
+alias savemap="bash $HOME/Desktop/RobotCESdemo/Run_script/MapSave.sh"
+alias runrobot="bash $HOME/Desktop/RobotCESdemo/Run_script/RobotFullModeLaunch.sh"

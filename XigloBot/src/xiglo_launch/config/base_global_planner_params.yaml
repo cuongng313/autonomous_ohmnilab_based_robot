@@ -1,0 +1,8 @@
+base_global_planner: global_planner/GlobalPlanner
+
+GlobalPlanner:
+  planner_frequency: 0
+  planner_patience: 0
+
+  cost_factor: 0.55
+  neutral_cost: 50

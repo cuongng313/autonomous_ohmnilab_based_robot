@@ -1,0 +1,126 @@
+base_local_planner: teb_local_planner/TebLocalPlannerROS
+
+TebLocalPlannerROS:
+  odom_topic: odom
+  map_frame: /map
+
+  # Trajectory
+
+  teb_autosize: True
+  dt_ref: 0.3
+  dt_hysteresis: 0.1
+  min_samples: 3
+  max_samples: 500
+  global_plan_overwrite_orientation: True
+  global_plan_viapoint_sep: -0.1 # negative, do not use viapoints. positive, use them. the actual value does not matter
+  max_global_plan_lookahead_dist: 4.0
+  force_reinit_new_goal_dist: 1.0
+  feasibility_check_no_poses: 5
+  publish_feedback: false
+  shrink_horizon_backup: true
+  allow_init_with_backwards_motion: true
+  exact_arc_length: false
+  shrink_horizon_min_duration: 10
+
+  # Robot
+
+  max_vel_x: 0.7
+  max_vel_x_backwards: 0.3
+  max_vel_theta: 0.5
+  max_vel_y: 0.0 # not used, is differential
+  acc_lim_y: 0.0 # not used, is differential
+  acc_lim_x: 0.8
+  acc_lim_theta: 0.2
+  min_turning_radius: 0.0
+  wheelbase: 0.0 # not used, is differential
+  cmd_angle_instead_rotvel: false # not used, is differential
+  footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+    type: "polygon"
+    vertices: [[-0.4, -0.2], [-0.4, 0.2], [0.08, 0.2], [0.08, -0.2]] # for type "polygon"
+
+  # GoalTolerance
+
+  xy_goal_tolerance: 0.2
+  yaw_goal_tolerance: 0.1
+  free_goal_vel: false 
+  # complete_global_plan: True
+
+  # Obstacles
+
+  min_obstacle_dist: 0.3 # minimum distance to obstacle: it depends on the footprint_model
+  inflation_dist: 0.6 # greater than min_obstacle_dist to take effect
+  include_costmap_obstacles: true # use the local costmap
+  costmap_obstacles_behind_robot_dist: 1.0 # distance at which obstacles behind the robot are taken into account
+  obstacle_poses_affected: 15 # unused if legacy_obstacle_association is false
+  
+  legacy_obstacle_association: false
+  obstacle_association_force_inclusion_factor: 1.5 # the obstacles that will be taken into account are those closer than min_obstacle_dist*factor, if legacy is false
+  obstacle_association_cutoff_factor: 5.0 # the obstacles that are further than min_obstacle_dist * factor will not be taken into account, if legacy is false
+  include_dynamic_obstacles: true  
+  costmap_converter_plugin: "costmap_converter::CostmapToPolygonsDBSMCCH"
+  #costmap_converter_plugin: "costmap_converter::CostmapToLinesDBSRANSAC"
+  #costmap_converter_plugin: "costmap_converter::CostmapToLinesDBSMCCH"
+  #costmap_converter_plugin: "costmap_converter::CostmapToPolygonsDBSConcaveHull"
+  #costmap_converter_plugin: "" # deactivate plugin
+  costmap_converter_spin_thread: True
+  costmap_converter_rate: 5
+  # costmap_converter/CostmapToLinesDBSRANSAC:
+  #    cluster_max_distance: 0.4
+
+  # Optimization
+
+  no_inner_iterations: 5
+  no_outer_iterations: 4
+  optimization_activate: True # optimize
+  optimization_verbose: False
+  penalty_epsilon: 0.1
+  obstacle_cost_exponent: 4
+  weight_max_vel_x: 1
+  weight_max_vel_y: 1
+  weight_max_vel_theta: 1
+  weight_acc_lim_x: 1
+  weight_acc_lim_y: 1
+  weight_acc_lim_theta: 1
+  weight_kinematics_nh: 1000 # is a nonholonomic robot
+  weight_kinematics_forward_drive: 100 # prefer forward driving, for differential
+  weight_kinematics_turning_radius: 1 # prefer turns that respect the min_turning_radius, not used if differential (min_turning_radius = 0)
+  weight_optimaltime: 5 # prefer trajectories with less transition time
+  weight_shortest_path: 10
+  weight_obstacle: 100 # prefer trajectories that respect the min_obstacle_dist
+  weight_inflation: 1 # prefer trajectories that respect the inflation of the obstacles
+  weight_dynamic_obstacle: 50 # not in use yet
+  weight_dynamic_obstacle_inflation: 0.2
+  weight_viapoint: 1 # prefer trajectories that respect the viapoints in the global path
+  weight_adapt_factor: 2 # factor to multiply some weights (currently only weight_obstacle) at each iteration (gives better results than a huge value for the weight)
+
+  # Homotopy Class Planner
+
+  enable_homotopy_class_planning: False  # currently not used
+  simple_exploration: False
+  enable_multithreading: True
+  max_number_classes: 2
+  selection_cost_hysteresis: 1.0
+  selection_prefer_initial_plan: 0.9
+  selection_obst_cost_scale: 100.0
+  selection_viapoint_cost_scale: 1.0
+  selection_alternative_time_cost: False
+
+  switching_blocking_period: 10.0
+  
+  roadmap_graph_no_samples: 15
+  roadmap_graph_area_width: 6
+  h_signature_prescaler: 1.0
+  h_signature_threshold: 0.1
+  obstacle_heading_threshold: 0.45
+  roadmap_graph_no_samples: 15
+  roadmap_graph_area_width: 5
+  obstacle_keypoint_offset: 0.1
+  visualize_hc_graph: False
+
+  shrink_horizon_backup: True
+  shrink_horizon_min_duration: 10
+  oscillation_recovery: False
+  oscillation_v_eps: 0.1
+  oscillation_omega_eps: 0.1
+  oscillation_recovery_min_duration: 10
+  oscillation_filter_duration: 10

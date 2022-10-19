@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <title>Bootstrap Example</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=0.7">
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <script src="./js/jquery.min.js"></script>
+      <script src="./js/bootstrap.min.js"></script>
+      <!-- <script src="./js/vue.js"></script> -->
+      <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+      <!-- jQuery and display.js are conveniences for interacting with the DOM -->
+      <script src="js/jquery.js"></script>
+      <script src="js/display.js"></script>
+
+      <script src="js/three.js"></script>
+      <script src="js/ColladaLoader2.js"></script>
+      <script src="js/eventemitter2.js"></script>
+      <!-- <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script> -->
+      <script type="text/javascript" src="js/roslib.min.js"></script>
+      <!-- <script src="http://static.robotwebtools.org/ros3djs/current/ros3d.js"></script> -->
+      <script src="js/ros3d.min.js"></script>
+      <script src="js/vue2-touch-events.js"></script>
+      <script src="common.js"></script>
+      <style>
+            .btn {
+                  width: 140px;
+                  height: 40px;
+            }
+      </style>
+
+      <!-- <meta http-equiv="refresh" content="60"> -->
+</head>
+
+<body>
+
+      <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                  <ul class="nav navbar-nav">
+                        <li class="active" style="display: inline-flex;"><a href="index.html">Home</a></li>
+                        <li style="display: inline-flex;"><a href="pageMap.html">ViewMap</a></li>
+                        <li style="display: inline-flex;"><a href="pageSetttings.html">Settings</a></li>
+                  </ul>
+            </div>
+      </nav>
+      <div class="container-fluid" id="settingArea">
+
+            <h2>ROS Mode Options</h2>
+
+            <div class="row">
+                  <div class="col-sm-6">
+                        <button class="btn btn-primary btn-lg" onclick="callPhp('reset_lidar')" v-if="connected">Reset
+                              Lidar</button>
+                        <button class="btn btn-warning btn-lg" v-else>Reset
+                              Lidar</button>
+                        <br /><br />
+                        <button class="btn btn-primary btn-lg" onclick="callPhp('reset_tb')" v-if="connected">Reset
+                              Tb</button>
+                        <button class="btn btn-warning btn-lg" v-else>Reset Tb</button>
+
+                        <br /><br />
+                        <button class="btn btn-primary btn-lg" onclick="callPhp('launch_cuong')"
+                              v-if="connected">Launch Cuong</button>
+                        <button class="btn btn-warning btn-lg" v-else>Launch Cuong</button>
+                        <br /><br />
+                        <button class="btn btn-primary btn-lg" onclick="callPhp('stop_cuong')"
+                              v-if="connected">Stop Cuong</button>
+                        <button class="btn btn-warning btn-lg" v-else>Stop Cuong</button>
+                        <br /><br />
+
+                        <button class="btn btn-primary btn-lg" onclick="callPhp('start_docker')">Run
+                              Docker</button>
+                        <!-- <button class=" btn btn-primary btn-lg" @click="sendModeMsg(14)">Run Docker</button> -->
+                        <br />
+                        <br />
+
+
+
+
+
+                  </div>
+
+            </div>
+
+
+
+            <br>
+      </div>
+      <br>
+
+
+      <script type="text/javascript" src="./app.js"></script>
+      <script type="text/javascript" src="./pageSettings.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Declare the arguments -->
+ 
+  <!-- Launch neccessary file -->
+
+  <include file="$(find robot_setup_tf)/launch/robot_setup_tf.launch"></include>
+  <include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch"></include>
+  <include file="$(find xiglo_launch)/launch/scan_filter.launch"></include> 
+  <include file="$(find xiglo_launch)/launch/ekf_odom.launch"></include> 
+  <include file="$(find gmapping)/launch/slam.launch"></include>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base"  output="screen">
+        
+	<rosparam file="$(find xiglo_launch)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+	<rosparam file="$(find xiglo_launch)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+	<rosparam file="$(find xiglo_launch)/config/local_costmap_params.yaml" command="load" />
+	<rosparam file="$(find xiglo_launch)/config/global_costmap_params.yaml" command="load" />
+	<rosparam file="$(find xiglo_launch)/config/teb_local_planner_slam.yaml" command="load" />
+
+	<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+	<param name="planner_frequency" value="1.0" />
+	<param name="planner_patience" value="1.0" />
+
+	<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+	<param name="controller_frequency" value="5.0" />
+	<param name="controller_patience" value="15.0" />
+   </node>
+
+  <!-- <remap from="tb_cmd_vel" to="cmd_vel"/> -->
+
+</launch>

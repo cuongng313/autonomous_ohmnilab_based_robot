@@ -1,0 +1,10 @@
+scan_filter_chain:
+
+- name: range
+  type: laser_filters/LaserScanRangeFilter
+  params:
+    use_message_range_limits: false #Use the range_min and range_max values from the laserscan message as threshold. Defaults to false
+    lower_threshold: 0.2 
+    upper_threshold: 10.0
+    lower_replacement_value: 0.2 #Use this value for all measurements <lower_threshold
+    upper_replacement_value: 9.99 #Use this value for all measurements >upper_threshold
